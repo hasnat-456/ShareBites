@@ -1,0 +1,27 @@
+workflows:
+  ios-development:
+    name: iOS Development Build (Free)
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+
+    scripts:
+      - name: Print Flutter version
+        script: flutter --version
+
+      - name: Get Flutter packages
+        script: flutter pub get
+
+      - name: Install CocoaPods dependencies
+        script: |
+          cd ios
+          pod install --repo-update
+
+      - name: Build iOS (no code signing - debug)
+        script: |
+          flutter build ios --debug --no-codesign
+
+    artifacts:
+      - build/ios/iphoneos/Runner.app
